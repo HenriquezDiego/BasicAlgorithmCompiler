@@ -1,39 +1,29 @@
 ﻿using System;
+using CompiladorLISP;
 
 
 namespace Transpilador
 {
    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            string input = "(=m (/(+ (+ (- y x) a)c)3))";
-            string inputEasy = "(/(+ a b)c)";
+            //var input = "(asignar ( / (+ (+  (- y x) a)  c)3  )  )";
+            //var inputEasy = "(/(+ a b)c)";
+            //var inputHeavy = "(= m((/(+ a b)(-a b))))";
 
-            var compilador = new Compilador();
+            var parente = "(asignar m((-a b)(+a b)(+ a c)))";
+            parente = parente.Replace("asignar m", "=•");
 
+            var conver = new Conversorcs();
+            var result = conver.Compile(parente);
 
-            Console.WriteLine(CustomTrim(input));
-            
-            compilador.Fragmentar(CustomTrim(inputEasy));
-            compilador.Reverse();
-            compilador.Compile();
+            Console.WriteLine(result);
             Console.ReadLine();
 
 
         }
 
-        static string CustomTrim(string parm)
-        {
-            var resul = "";
-            var value = parm.ToCharArray();
-            foreach (var i in value)
-            {
-                if(!i.Equals(' ')) resul += i;
-            }
-            
-            return resul;
-        }
 
 
     }

@@ -7,18 +7,18 @@ namespace Transpilador
     class Compilador
     {
         private IList<string> _list;
-        private Dictionary<int, string> _dictionary;
+        private Dictionary<string, string> _dictionary;
         private IList<string> _listAux;
-        private string _finalResult;
+        private string FinalResult;
         public Compilador()
         {
-            _finalResult = "";
+             FinalResult = "";
             _listAux = new List<string>();
-            _dictionary = new Dictionary<int, string>();
+            _dictionary = new Dictionary<string, string>();
             _list = new List<string>();
         }
 
-        public string CustomTrim(string parm)
+        private string CustomTrim(string parm)
         {
             var resul = "";
             var value = parm.ToCharArray();
@@ -77,7 +77,7 @@ namespace Transpilador
                 }
                 //_dictionary.Add(_list.IndexOf(item), result);
                 _listAux.Add(result);
-                _finalResult += result;
+                FinalResult += result;
                 result = "";
             }
 
@@ -88,24 +88,23 @@ namespace Transpilador
       
         public void Compile()
         {
-            _finalResult = "";
+            FinalResult = "";
             var aux = "";
             for (int i = 0; i < _list.Count; i++)
             {
                 aux = _listAux[i];
                 aux = aux.Replace(" ", (i-1).ToString());
                 _listAux[i] = aux;
-                _finalResult += aux;
-                _dictionary.Add(i, aux);
+                FinalResult += aux;
+                _dictionary.Add(i+"?", aux);
 
             }
 
             aux = "";
-            var other = "";
             for (int i = 0; i < _listAux.Count; i++)
             {
                 //_finalResult.Replace(i.ToString(), _dictionary[i]);
-                aux = _dictionary[i];
+                aux = _dictionary[i+"?"];
                 if (i <= 0)
                 {
                     //other += aux.Replace(i.ToString(), _dictionary[(i)]);
@@ -113,24 +112,26 @@ namespace Transpilador
                 else
                 {
                     var x = i - 1;
-                    other = aux.Replace(x.ToString(), _dictionary[x]);
-                    _dictionary[i] = other;
+                    var other = aux.Replace(x.ToString(), _dictionary[x+"?"]);
+                    _dictionary[i+"?"] = other;
                 }
             }
 
-            Console.WriteLine(_dictionary[_dictionary.Count-1]);
+           // Console.WriteLine(_dictionary[(_dictionary.Count-1)+"?"]);
             
         }
 
-        enum Operadores
+
+        public string CompileDone(string parm)
         {
-            Suma = '+',
-            Resta = '-',
-            Multiplicacion = '*',
-            Division = '/',
-            Open = '(',
-            Close = ')'
+
+            Fragmentar(CustomTrim(parm));
+            Reverse();
+            Compile();
+            return _dictionary[(_dictionary.Count - 1) + "?"];
         }
+
+      
 
     }
 
