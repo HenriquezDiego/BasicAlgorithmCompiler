@@ -11,7 +11,6 @@ namespace Transpilador
             //var input = "(asignar ( / (+ (+  (- y x) a)  c)3  )  )";
             //var inputEasy = "(/(+ a b)c)";
             //var inputHeavy = "(= m((/(+ a b)(-a b))))";
-
             var parente = "(asignar m((-a b)(+a b)(+ a c)))";
             parente = parente.Replace("asignar m", "=•");
 
